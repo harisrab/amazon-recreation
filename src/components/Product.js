@@ -16,6 +16,7 @@ function Product({ id, title, price, rating, image }) {
 				price,
 				rating,
 				image,
+				amount: 1,
 			},
 		});
 	};
@@ -28,7 +29,7 @@ function Product({ id, title, price, rating, image }) {
 					<p>Rating: </p>
 					{rating !== 0 ? (
 						Array.from(Array(rating).keys()).map((_, i) => {
-							return <p>⭐</p>;
+							return <p key={i}>⭐</p>;
 						})
 					) : (
 						<p className="noRating">No rating available</p>

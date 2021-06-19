@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styled from "styled-components";
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
@@ -7,6 +7,16 @@ import { useStateValue } from "../StateProvider";
 
 function Header() {
 	const [{ basket }, dispatch] = useStateValue();
+
+	useEffect(() => {
+		console.log("Current State Object: ", basket);
+		console.log(Object.keys(basket).map(key => ({ key, value: basket[key] })).map(eachItem => {
+			return <h1>{eachItem.id}</h1>
+			
+		}))
+		
+	}, [basket])
+
 
 	return (
 		<HeaderWrapper>
@@ -39,7 +49,7 @@ function Header() {
 					<CartHeaderOption>
 						<ShoppingBasketIcon />
 						<div className="basketCircle">
-							<p>{basket.length}</p>
+							<p>{Object.keys(basket).length}</p>
 						</div>
 					</CartHeaderOption>
 				</Link>

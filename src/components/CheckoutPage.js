@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styled from "styled-components";
 import Item from "./Item";
 import Currency from "react-currency-formatter";
@@ -6,6 +6,7 @@ import { useStateValue } from "../StateProvider";
 
 function CheckoutPage() {
 	const [{ basket }, dispatch] = useStateValue();
+
 
 	return (
 		<CheckoutPageWrapper>
@@ -19,16 +20,17 @@ function CheckoutPage() {
 				<h1>Your Shopping Basket</h1>
 
 				<ItemsStack>
-					{Object.keys(basket).map((eachItem) => {
-						return (
-							<Item
-								image={eachItem.image}
-								rating={eachItem.rating}
-								title={eachItem.title}
-								price={eachItem.price}
-							/>
-						);
-					})}
+
+				{Object.keys(basket).map(key => ({ key, value: basket[key] })).map((eachItem) => {
+					return <Item 
+						image={eachItem.image}
+						rating={eachItem.rating}
+						title={eachItem.title}
+						price={eachItem.price}
+						amount={eachItem.amount}
+					/>
+				})}
+				
 				</ItemsStack>
 			</LeftSide>
 

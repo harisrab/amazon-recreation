@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import Currency from "react-currency-formatter";
 
-function Item({ image, rating = 5, title, price }) {
+function Item({ image, rating = 5, title, price, amount }) {
+	console.log("Incoming Item Title: ", title);
 	return (
 		<ItemWrapper>
 			<PictureWrapper>
