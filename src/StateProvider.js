@@ -4,11 +4,11 @@ import React from "react";
 export const StateContext = React.createContext();
 
 // Wrap our App with. It provides the app access to the Data Layer
-export const StateProvider = ({ reducer, initialState, children }) => {
+export const StateProvider = ({ reducer, initialState, children }) => (
 	<StateContext.Provider value={React.useReducer(reducer, initialState)}>
 		{children}
-	</StateContext.Provider>;
-};
+	</StateContext.Provider>
+);
 
 // This function helps pull information from the data layer.
 // This function helps pull information from the data layer.

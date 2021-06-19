@@ -1,8 +1,24 @@
 import React from "react";
 import styled from "styled-components";
 import Currency from "react-currency-formatter";
+import { useStateValue } from "../StateProvider";
 
 function Product({ id, title, price, rating, image }) {
+	const [{ basket }, dispatch] = useStateValue();
+
+	const dispatchItemToStore = () => {
+		//dispatch an action
+		dispatch({
+			type: "ADD_TO_BASKET",
+			item: {
+				id,
+				title,
+				price,
+				rating,
+				image,
+			},
+		});
+	};
 	return (
 		<ProductWrapper key={id} id={`productId__${id}`}>
 			<ProductInfo>
@@ -31,7 +47,9 @@ function Product({ id, title, price, rating, image }) {
 
 			<img src={image} alt="" />
 
-			<button className="addToCartButton">Add to cart</button>
+			<button onClick={dispatchItemToStore} className="addToCartButton">
+				Add to cart
+			</button>
 		</ProductWrapper>
 	);
 }
