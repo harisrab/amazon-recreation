@@ -1,20 +1,15 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Item from "./Item";
 import Currency from "react-currency-formatter";
 import { useStateValue } from "../StateProvider";
 import { totalBasketItems, totalBasketPrice } from "../reducer";
-import _ from 'lodash';
-
-
+import _ from "lodash";
 
 function CheckoutPage() {
 	const [{ basket }, dispatch] = useStateValue();
 
-	useEffect(() => {
-
-	}, [])
-
+	useEffect(() => {}, []);
 
 	return (
 		<CheckoutPageWrapper>
@@ -28,23 +23,27 @@ function CheckoutPage() {
 				<h1>Your Shopping Basket</h1>
 
 				<ItemsStack>
-	
-				{totalBasketItems(basket) !== 0 ? _.values(basket).map((eachItem, i) => (
-					eachItem.amount !== 0 ? 
-						<Item 
-							image={eachItem.image}
-							rating={eachItem.rating}
-							title={eachItem.title}
-							price={eachItem.price}
-							amount={eachItem.amount}
-							id={eachItem.id}
-							key={i}
-
-						/> 
-					: <></> 
-				)) : <EmptyCartBanner><h1>Cart Empty</h1></EmptyCartBanner>}
-
-				
+					{totalBasketItems(basket) !== 0 ? (
+						_.values(basket).map((eachItem, i) =>
+							eachItem.amount !== 0 ? (
+								<Item
+									image={eachItem.image}
+									rating={eachItem.rating}
+									title={eachItem.title}
+									price={eachItem.price}
+									amount={eachItem.amount}
+									id={eachItem.id}
+									key={i}
+								/>
+							) : (
+								<></>
+							)
+						)
+					) : (
+						<EmptyCartBanner>
+							<h1>Cart Empty</h1>
+						</EmptyCartBanner>
+					)}
 				</ItemsStack>
 			</LeftSide>
 

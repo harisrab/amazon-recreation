@@ -11,7 +11,7 @@ import PaymentPage from './components/PaymentPage';
 
 function App() {
 
-	const [store, dispatch] = useStateValue();
+		const [store, dispatch] = useStateValue();
 
 	useEffect(() => {
 		auth.onAuthStateChanged(authUser => {

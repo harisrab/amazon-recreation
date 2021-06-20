@@ -48,7 +48,6 @@ const reducer = (state, action) => {
 				};
 			}
 
-
 		case "REMOVE_ITEM":
 			const id = Number(action.payload.id);
 
