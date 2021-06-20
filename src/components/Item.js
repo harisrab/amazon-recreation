@@ -28,7 +28,6 @@ function Item({ image, rating = 5, title, price, amount, id }) {
 				<h2>{title}</h2>
 
 				<Currency quantity={price} />
-
 				<Stars>
 					<p className="rating">Rating: </p>
 					{rating !== 0 ? (
@@ -74,6 +73,8 @@ const PictureWrapper = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	overflow: hidden;
 
 	img {
 		height: 80%;
