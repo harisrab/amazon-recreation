@@ -1,7 +1,46 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components';
+import {auth} from '../firebase';
+import {useHistory} from 'react-router-dom';
 
 function LoginPage() {
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    
+    const history = useHistory();
+
+    const handleSignIn = (e) => {
+        // do some fancy firebase sign in stuff
+        e.preventDefault();
+
+        auth
+            .signInWithEmailAndPassword(email, password)
+            .then(auth => {
+                history.push('/')
+            })
+            .catch(error => {
+                alert(error.message)
+            })
+        
+    }
+    
+    
+    const handleSignUp = (e) => {
+        // do some fancy firebase sign up stuff
+        e.preventDefault();
+        auth
+            .createUserWithEmailAndPassword(email, password)
+            .then(auth => {
+                console.log("Authentication Object: ", auth);
+            
+                if (auth) {
+                    history.push('/');
+                }
+            })
+            .catch(error => alert(error.message))
+
+    }
+    
     return (
 <LoginWrapper>
     <img src="/amazonLogoBlack.svg" alt="" />
@@ -13,18 +52,18 @@ function LoginPage() {
         <form action="">
             <div className="login__input">
                 <label htmlFor="">Email</label>
-                <input type="text" />
+                <input value={email} onChange={(e) => setEmail(e.target.value)} type="text" />
             </div>
             <div className="login__input">
                 <label htmlFor="">Password</label>
-                <input type="text" />
+                <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" />
             </div>
 
-            <button className="signIn__button" type="submit">Sign in</button>
+            <button onClick={handleSignIn} className="signIn__button" type="submit">Sign in</button>
 
             <p>By signing-in you agree to Amazon's Conditions of Use and Sale. Please see our Privacy Notice, our Cookies Notice, and our Interest-Based Ads Notice</p>
 
-            <button className="signUp__button" type="submit">Create your Amazon Account</button>
+            <button onClick={handleSignUp} className="signUp__button" type="submit">Create your Amazon Account</button>
         </form>
     </LoginForm>
 </LoginWrapper>
@@ -96,6 +135,16 @@ h1 {
     margin-top: 10px;
     background-color: #eea332;
     margin-bottom: 20px;
+    
+    &:hover {
+        background-color: #eeb155;
+        cursor: pointer;
+    }
+    &:active {
+        background-color: #df9423;
+        cursor: pointer;
+    }
+    
 }
 
 .signUp__button {
@@ -105,6 +154,16 @@ h1 {
     border: 1px solid;
     margin-top: 20px;
     border-color: darkgray;
+    cursor: pointer;
+    
+    &:hover {
+        background-color: #f0f0f0;
+        cursor: pointer;
+    }
+    &:active {
+        background-color: #adadad;
+        cursor: pointer;
+    }
 }
 
 p {

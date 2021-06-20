@@ -7,10 +7,15 @@ import { useStateValue } from "../StateProvider";
 import {totalBasketItems} from '../reducer';
 
 import _ from "lodash";
+import {auth} from '../firebase';
 
 function Header() {
-	const [{ basket }, dispatch] = useStateValue();
+	const [{ basket, user }, dispatch] = useStateValue();
 
+	const handleSignOut = () => {
+		auth.signOut();
+
+	}
 
 	return (
 		<HeaderWrapper>
@@ -26,10 +31,10 @@ function Header() {
 			</SearchBox>
 
 			<HeaderNav>
-				<Link className="headerLink" to="/login">
-					<HeaderOption>
-						<span className="lineOne">Hello Guest</span>
-						<span className="lineTwo">Sign in</span>
+				<Link className="headerLink" to={!user && '/login'}>
+					<HeaderOption onClick={handleSignOut}>
+						<span className="lineOne">Hello {user === null ? "Guest" : user.email}</span>
+						<span className="lineTwo">Sign {user === null ? "in" : "out"}</span>
 					</HeaderOption>
 				</Link>
 				<HeaderOption>

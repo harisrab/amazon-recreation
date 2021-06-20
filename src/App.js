@@ -1,11 +1,41 @@
+import React, {useEffect} from 'react';
 import styled from "styled-components";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import CheckoutPage from "./components/CheckoutPage";
 import LoginPage from './components/LoginPage';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {auth} from './firebase';
+import {useStateValue} from './StateProvider';
 
 function App() {
+
+	const [store, dispatch] = useStateValue();
+
+	useEffect(() => {
+		auth.onAuthStateChanged(authUser => {
+			console.log("THE USER IS >>>>>>>", authUser);
+			
+			if (authUser) {
+				// dispatch him into the data layer and set user
+				dispatch({
+					type: "SET_USER",
+					payload: {
+						user: authUser
+					}
+				})
+			} else {
+				// set the user to null in data layer
+				dispatch({
+					type: "SET_USER",
+					payload: {
+						user: null
+					}
+				})
+			}
+		})
+	}, [dispatch])
+
 	return (
 		<Router>
 			<AppWrapper>

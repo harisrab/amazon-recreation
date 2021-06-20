@@ -2,6 +2,7 @@ import _ from "lodash";
 
 export const initialState = {
 	basket: {},
+	user: null
 };
 
 // Selectors
@@ -62,6 +63,12 @@ const reducer = (state, action) => {
 						amount: state.basket[id].amount - 1
 					}
 				}
+			}
+
+		case "SET_USER":
+			return {
+				...state,
+				user: action.payload.user
 			}
 
 		default:
