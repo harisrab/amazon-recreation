@@ -4,18 +4,17 @@ import SearchIcon from "@material-ui/icons/Search";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import { Link } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
-import {totalBasketItems} from '../reducer';
+import { totalBasketItems } from "../reducer";
 
 import _ from "lodash";
-import {auth} from '../firebase';
+import { auth } from "../firebase";
 
 function Header() {
 	const [{ basket, user }, dispatch] = useStateValue();
 
 	const handleSignOut = () => {
 		auth.signOut();
-
-	}
+	};
 
 	return (
 		<HeaderWrapper>
@@ -31,10 +30,14 @@ function Header() {
 			</SearchBox>
 
 			<HeaderNav>
-				<Link className="headerLink" to={!user && '/login'}>
+				<Link className="headerLink" to={!user && "/login"}>
 					<HeaderOption onClick={handleSignOut}>
-						<span className="lineOne">Hello {user === null ? "Guest" : user.email}</span>
-						<span className="lineTwo">Sign {user === null ? "in" : "out"}</span>
+						<span className="lineOne">
+							Hello {user === null ? "Guest" : user.email}
+						</span>
+						<span className="lineTwo">
+							Sign {user === null ? "in" : "out"}
+						</span>
 					</HeaderOption>
 				</Link>
 				<HeaderOption>
@@ -50,8 +53,7 @@ function Header() {
 					<CartHeaderOption>
 						<ShoppingBasketIcon />
 						<div className="basketCircle">
-						<p>{totalBasketItems(basket)}</p>
-					
+							<p>{totalBasketItems(basket)}</p>
 						</div>
 					</CartHeaderOption>
 				</Link>
@@ -69,7 +71,7 @@ const HeaderWrapper = styled.div`
 
 	display: flex;
 	flex-direction: row;
-	align-items: stretch;
+	align-items: center;
 	justify-content: space-evenly;
 `;
 
@@ -142,8 +144,6 @@ const HeaderNav = styled.div`
 
 		text-decoration: none;
 	}
-
-	
 `;
 
 const HeaderOption = styled.div`

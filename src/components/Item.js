@@ -164,3 +164,4 @@ const Amount = styled.div`
 		font-size: 15px;
 	}
 `;
+

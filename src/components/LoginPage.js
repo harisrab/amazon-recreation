@@ -103,6 +103,7 @@ const LoginWrapper = styled.div`
 	img {
 		height: 40px;
 		margin-bottom: 50px;
+		margin-top: 100px;
 	}
 `;
 
