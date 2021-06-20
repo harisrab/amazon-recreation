@@ -5,11 +5,15 @@ import Currency from "react-currency-formatter";
 import { useStateValue } from "../StateProvider";
 import { totalBasketItems, totalBasketPrice } from "../reducer";
 import _ from "lodash";
+import { useHistory } from "react-router-dom";
 
 function CheckoutPage() {
 	const [{ basket }, dispatch] = useStateValue();
+	const history = useHistory();
 
-	useEffect(() => {}, []);
+	const transitToCheckoutPage = () => {
+		history.push("/payment");
+	};
 
 	return (
 		<CheckoutPageWrapper>
@@ -61,7 +65,10 @@ function CheckoutPage() {
 						<p>This order contains a gift</p>
 					</div>
 					<CheckOutButton>
-						<button className="checkOut">
+						<button
+							onClick={transitToCheckoutPage}
+							className="checkOut"
+						>
 							Proceed to Checkout
 						</button>
 					</CheckOutButton>
@@ -138,6 +145,10 @@ const CheckOutButton = styled.div`
 
 		height: 30px;
 		width: 100%;
+
+		&:hover {
+			cursor: pointer;
+		}
 	}
 `;
 
