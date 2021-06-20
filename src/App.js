@@ -2,20 +2,25 @@ import styled from "styled-components";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import CheckoutPage from "./components/CheckoutPage";
-
+import LoginPage from './components/LoginPage';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
 	return (
 		<Router>
 			<AppWrapper>
-				<Header />
 				<Switch>
+
+				<Route path="/login">
+					<LoginPage />
+				</Route>
 					<Route path="/checkout">
+						<Header />
 						<CheckoutPage />
 					</Route>
 
 					<Route path="/">
+						<Header />
 						<Home />
 					</Route>
 				</Switch>

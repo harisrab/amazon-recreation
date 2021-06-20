@@ -26,10 +26,12 @@ function Header() {
 			</SearchBox>
 
 			<HeaderNav>
-				<HeaderOption>
-					<span className="lineOne">Hello Guest</span>
-					<span className="lineTwo">Sign in</span>
-				</HeaderOption>
+				<Link className="headerLink" to="/login">
+					<HeaderOption>
+						<span className="lineOne">Hello Guest</span>
+						<span className="lineTwo">Sign in</span>
+					</HeaderOption>
+				</Link>
 				<HeaderOption>
 					<span className="lineOne">Returns</span>
 					<span className="lineTwo">& Orders</span>
@@ -127,6 +129,16 @@ const HeaderNav = styled.div`
 	justify-content: space-evenly;
 
 	margin-right: 15px;
+
+	.headerLink {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		text-decoration: none;
+	}
+
+	
 `;
 
 const HeaderOption = styled.div`
