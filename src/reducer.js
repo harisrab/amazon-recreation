@@ -1,6 +1,18 @@
+import _ from "lodash";
+
 export const initialState = {
 	basket: {},
 };
+
+// Selectors
+export const totalBasketItems = (basket) => {
+	return _.values(basket)?.reduce((acc, currentItem) => currentItem.amount + acc, 0)
+}
+
+export const totalBasketPrice = (basket) => {
+ 	return _.values(basket).reduce((acc, currentItem) => (currentItem.price * currentItem.amount) + acc, 0);
+}
+
 
 const reducer = (state, action) => {
 	switch (action.type) {
@@ -33,6 +45,23 @@ const reducer = (state, action) => {
 						[ItemKey]: value,
 					},
 				};
+			}
+
+
+		case "REMOVE_ITEM":
+			const id = Number(action.payload.id);
+
+		
+
+			return {
+				...state,
+				basket: {
+					...state.basket,
+					[id]: {
+						...state.basket[id],
+						amount: state.basket[id].amount - 1
+					}
+				}
 			}
 
 		default:

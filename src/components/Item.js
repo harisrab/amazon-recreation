@@ -1,9 +1,24 @@
 import React from "react";
 import styled from "styled-components";
 import Currency from "react-currency-formatter";
+import {useStateValue} from '../StateProvider';
 
-function Item({ image, rating = 5, title, price, amount }) {
-	console.log("Incoming Item Title: ", title);
+
+function Item({ image, rating = 5, title, price, amount, id }) {
+
+	const [{basket}, dispatch] = useStateValue();
+	
+
+	const handleRemoveItem = () => {
+		//dispatch an action to remove the current item
+		dispatch({
+			type: "REMOVE_ITEM",
+			payload: {
+				id: id
+			}
+		})
+	}
+
 	return (
 		<ItemWrapper>
 			<PictureWrapper>
@@ -30,7 +45,7 @@ function Item({ image, rating = 5, title, price, amount }) {
 					<p className="amountActual">{amount}</p>
 				</Amount>
 
-				<button>Remove from basket</button>
+				<button onClick={handleRemoveItem}>Remove from basket</button>
 			</InfoWrapper>
 		</ItemWrapper>
 	);

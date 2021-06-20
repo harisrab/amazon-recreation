@@ -3,21 +3,15 @@ import styled from "styled-components";
 import Item from "./Item";
 import Currency from "react-currency-formatter";
 import { useStateValue } from "../StateProvider";
+import { totalBasketItems, totalBasketPrice } from "../reducer";
 import _ from 'lodash';
 
 function CheckoutPage() {
 	const [{ basket }, dispatch] = useStateValue();
-	const [total, setTotal] = useState(0);
 
 	useEffect(() => {
-		const localTotal = _.values(basket).reduce((acc, currentItem) => {
-			return (currentItem.price * currentItem.amount) + acc
-		}, 0);
 
-		setTotal(localTotal);
-
-
-	}, [basket, total])
+	}, [])
 
 
 	return (
@@ -32,15 +26,17 @@ function CheckoutPage() {
 				<h1>Your Shopping Basket</h1>
 
 				<ItemsStack>
-				{_.values(basket).map(eachItem => (
-					<Item 
+				{totalBasketItems(basket) !== 0 ? _.values(basket).map(eachItem => (
+					eachItem.amount !== 0 ? <Item 
 						image={eachItem.image}
 						rating={eachItem.rating}
 						title={eachItem.title}
 						price={eachItem.price}
 						amount={eachItem.amount}
-					/>
-				))}
+						id={eachItem.id}
+
+					/> : <></> 
+				)) : <EmptyCartBanner><h1>Cart Empty</h1></EmptyCartBanner>}
 				
 				
 				</ItemsStack>
@@ -50,11 +46,9 @@ function CheckoutPage() {
 				<CheckoutSummary>
 					<Info>
 						<p className="checkOut__heading">
-							Subtotal ({_.values(basket).reduce((acc, currentItem) => {
-							return currentItem.amount + acc
-						}, 0)} items):{" "}
+							Subtotal ({totalBasketItems(basket)} items):{" "}
 						</p>
-						<Currency quantity={total} />
+						<Currency quantity={totalBasketPrice(basket)} />
 					</Info>
 
 					<div className="giftInput">
@@ -176,4 +170,23 @@ const ItemsStack = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	gap: 5px;
+`;
+
+const EmptyCartBanner = styled.div`
+	height: 100px;
+	width: 100%;
+	background-color: white;
+
+	display: flex;
+	align-items: center;
+	justify-content: flex-center;
+	padding-left: 50px;
+
+	h1 {
+		border-bottom: none;
+		font-size: 20px;
+		font-weight: 400;
+		color: gray;
+		margin-bottom: 10px;
+	}
 `;

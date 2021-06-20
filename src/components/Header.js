@@ -1,18 +1,15 @@
-import React, {useEffect} from "react";
+import React from "react";
 import styled from "styled-components";
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import { Link } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
+import {totalBasketItems} from '../reducer';
+
 import _ from "lodash";
 
 function Header() {
 	const [{ basket }, dispatch] = useStateValue();
-
-	useEffect(() => {
-
-		
-	}, [basket])
 
 
 	return (
@@ -46,9 +43,7 @@ function Header() {
 					<CartHeaderOption>
 						<ShoppingBasketIcon />
 						<div className="basketCircle">
-						<p>{_.values(basket).reduce((acc, currentItem) => {
-							return currentItem.amount + acc
-						}, 0)}</p>
+						<p>{totalBasketItems(basket)}</p>
 					
 						</div>
 					</CartHeaderOption>
