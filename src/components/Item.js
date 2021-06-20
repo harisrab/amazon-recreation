@@ -25,6 +25,11 @@ function Item({ image, rating = 5, title, price, amount }) {
 					)}
 				</Stars>
 
+				<Amount>
+					<p className="amountTag">Amount: </p>
+					<p className="amountActual">{amount}</p>
+				</Amount>
+
 				<button>Remove from basket</button>
 			</InfoWrapper>
 		</ItemWrapper>
@@ -121,4 +126,25 @@ const Stars = styled.div`
 	display: flex;
 
 	margin-top: 5px;
+`;
+
+
+const Amount = styled.div`
+	
+	display: flex;
+
+	.amountTag{
+		font-weight: 400;
+		font-size: 15px;
+		text-decoration: underline;
+
+		margin-right: 5px;
+
+	}
+
+	.amountActual {
+
+		font-weight: 400;
+		font-size: 15px;
+	}
 `;

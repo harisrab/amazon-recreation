@@ -1,11 +1,22 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import Item from "./Item";
 import Currency from "react-currency-formatter";
 import { useStateValue } from "../StateProvider";
-
+import _ from 'lodash';
 function CheckoutPage() {
 	const [{ basket }, dispatch] = useStateValue();
+	const [total, setTotal] = useState(0);
+
+	useEffect(() => {
+		const localTotal = _.values(basket).reduce((acc, currentItem) => {
+			return (currentItem.price * currentItem.amount) + acc
+		}, 0);
+
+		setTotal(localTotal);
+
+
+	}, [basket, total])
 
 
 	return (
@@ -20,16 +31,16 @@ function CheckoutPage() {
 				<h1>Your Shopping Basket</h1>
 
 				<ItemsStack>
-
-				{Object.keys(basket).map(key => ({ key, value: basket[key] })).map((eachItem) => {
-					return <Item 
+				{_.values(basket).map(eachItem => (
+					<Item 
 						image={eachItem.image}
 						rating={eachItem.rating}
 						title={eachItem.title}
 						price={eachItem.price}
 						amount={eachItem.amount}
 					/>
-				})}
+				))}
+				
 				
 				</ItemsStack>
 			</LeftSide>
@@ -38,9 +49,11 @@ function CheckoutPage() {
 				<CheckoutSummary>
 					<Info>
 						<p className="checkOut__heading">
-							Subtotal (2 items):{" "}
+							Subtotal ({_.values(basket).reduce((acc, currentItem) => {
+							return currentItem.amount + acc
+						}, 0)} items):{" "}
 						</p>
-						<Currency quantity={23234} />
+						<Currency quantity={total} />
 					</Info>
 
 					<div className="giftInput">

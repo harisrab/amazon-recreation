@@ -4,16 +4,13 @@ import SearchIcon from "@material-ui/icons/Search";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import { Link } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
+import _ from "lodash";
 
 function Header() {
 	const [{ basket }, dispatch] = useStateValue();
 
 	useEffect(() => {
-		console.log("Current State Object: ", basket);
-		console.log(Object.keys(basket).map(key => ({ key, value: basket[key] })).map(eachItem => {
-			return <h1>{eachItem.id}</h1>
-			
-		}))
+
 		
 	}, [basket])
 
@@ -49,7 +46,10 @@ function Header() {
 					<CartHeaderOption>
 						<ShoppingBasketIcon />
 						<div className="basketCircle">
-							<p>{Object.keys(basket).length}</p>
+						<p>{_.values(basket).reduce((acc, currentItem) => {
+							return currentItem.amount + acc
+						}, 0)}</p>
+					
 						</div>
 					</CartHeaderOption>
 				</Link>
