@@ -4,6 +4,7 @@ import Item from "./Item";
 import Currency from "react-currency-formatter";
 import { useStateValue } from "../StateProvider";
 import _ from 'lodash';
+
 function CheckoutPage() {
 	const [{ basket }, dispatch] = useStateValue();
 	const [total, setTotal] = useState(0);
