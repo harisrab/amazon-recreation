@@ -52,7 +52,7 @@ function App() {
 
 					<Route path="/payment">
 						<Header />
-						<PaymentPage />
+				<PaymentPage />
 					</Route>
 
 					<Route path="/">
