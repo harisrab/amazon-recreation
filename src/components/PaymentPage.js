@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Item from "./Item";
 import { useStateValue } from "../StateProvider";
@@ -6,8 +6,30 @@ import _ from "lodash";
 import { totalBasketItems, totalBasketPrice } from "../reducer";
 import Currency from "react-currency-formatter";
 
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+
 const PaymentPage = () => {
 	const [{ basket, user }, dispatch] = useStateValue();
+
+	const stripe = useStripe();
+	const elements = useElements();
+
+	const [error, setError] = useState(null);
+	const [disabled, setDisabled] = useState(true);
+	const [processing, setProcessing] = useState("");
+	const [succeeded, setSucceeded] = useState("");
+
+	const handleSubmit = async (e) => {
+		// do some fancy stripe stuff
+        e.preventDefault();
+
+        setProcessing(true);
+	};
+
+	const handleChange = (e) => {
+		setDisabled(e.empty);
+		setError(e.error ? "e.error.message" : "");
+	};
 
 	return (
 		<PageWrapper>
@@ -65,18 +87,32 @@ const PaymentPage = () => {
 					<CardDetails>
 						<p className="payment__title">Card Details</p>
 
-						<div className="stripe__component"></div>
+						<div className="stripe__component">
+							<form onSubmit={handleSubmit}>
+								<CardElement onChange={handleChange} />
+								<div className="total__order">
+									<p className="grand__total">
+										Grand Total:{" "}
+										{
+											<Currency
+												quantity={totalBasketPrice(
+													basket
+												)}
+											/>
+										}
+									</p>
+									<button
+										disabled={
+											processing || disabled || succeeded
+										}
+										className="buy__now"
+									>
+										{processing ? "Processing" : "Buy now"}
+									</button>
+								</div>
 
-						<div className="total__order">
-							<p className="grand__total">
-								Grand Total:{" "}
-								{
-									<Currency
-										quantity={totalBasketPrice(basket)}
-									/>
-								}
-							</p>
-							<button className="buy__now">Buy now</button>
+                                {error && <div>{error}</div>}
+							</form>
 						</div>
 					</CardDetails>
 				</PaymentMethodWrapper>
@@ -137,12 +173,17 @@ const PaymentReceipt = styled.div`
 	padding-bottom: 0px;
 	justify-content: space-between;
 	gap: 5px;
+	padding-bottom: 30px;
 `;
 const AddressInfoWrapper = styled.div`
 	width: 100%;
 	height: 200px;
 
 	display: flex;
+
+	border-bottom: 1px solid;
+	margin-bottom: 10px;
+	border-color: #0000003d;
 
 	.delivery__address {
 		height: 100%;
@@ -163,11 +204,18 @@ const ReviewItemsStackWrapper = styled.div`
 	height: auto;
 
 	display: flex;
+
+	border-bottom: 1px solid;
+	margin-bottom: 10px;
+	border-color: #0000003d;
+	padding-bottom: 20px;
 `;
 
 const Product = styled.div`
 	height: auto;
 	width: 80%;
+	padding-left: 20px;
+	padding-right: 20px;
 
 	.noItems__banner {
 		margin-top: 20px;
@@ -205,16 +253,30 @@ const CardDetails = styled.div`
 	height: auto;
 
 	.stripe__component {
+		width: 400px;
+		height: auto;
+		padding-left: 30px;
+		padding-right: 30px;
+		padding-top: 40px;
+		padding-bottom: 20px;
+		margin-top: 20px;
+
+		border-radius: 8px;
+
+		box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+			rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
+		text-align: center;
 	}
 
 	.total__order {
 		height: 130px;
-		width: 400px;
+		width: 100%;
 		border-radius: 8px;
 		background-color: white;
-		margin-top: 20px;
-		margin-left: 20px;
-		margin-bottom: 20px;
+		margin-top: 40px;
+		margin-left: 0px;
+		margin-bottom: 0px;
 		box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
 			rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
 			rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
